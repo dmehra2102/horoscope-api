@@ -7,8 +7,8 @@ import { Routes } from "@/interfaces";
 import { connect, set } from "mongoose";
 import { logger, stream } from "@/utils";
 import express, { Application } from "express";
-import { errorMiddleware } from "@/middlewares";
 import { PORT, NDOE_ENV, LOG_FORMAT, dbConnection } from "@/config";
+import { ensureRateLimitMiddleware, errorMiddleware } from "@/middlewares";
 
 class App {
   env: string;
@@ -36,8 +36,9 @@ class App {
     this.app.use(hpp());
     this.app.use(helmet());
     this.app.use(compression());
-    this.app.use(morgan(LOG_FORMAT, { stream }));
     this.app.use(express.json());
+    this.app.use(ensureRateLimitMiddleware);
+    this.app.use(morgan(LOG_FORMAT, { stream }));
     this.app.use(express.urlencoded({ extended: true }));
   }
 
