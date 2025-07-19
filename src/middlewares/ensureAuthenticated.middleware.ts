@@ -28,7 +28,7 @@ export const ensureAuthenticated = async (
     }
 
     req.user = decoded;
-    return next();
+    next();
   } catch (error) {
     if (error instanceof jwt.TokenExpiredError) {
       return next(createError(401, "Token expired"));

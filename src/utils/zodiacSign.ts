@@ -1,10 +1,10 @@
+import { format } from "date-fns";
 import zodiacRanges from "../../zodiac_sign.json";
+import horoscopeData from "../../horoscope_data.json";
 
 export const getZediacSignByDateOfBirth = (birthdate: Date): string => {
   const birthMonth = birthdate.getUTCMonth() + 1; // getUTCMonth() is 0-indexed (Jan = 0)
   const birthDay = birthdate.getUTCDate();
-
-  console.log("birthMonth-birthDay", `${birthMonth}-${birthDay}`);
 
   for (const signInfo of zodiacRanges) {
     const startMonth = signInfo.startDate.month;
@@ -35,4 +35,23 @@ export const getZediacSignByDateOfBirth = (birthdate: Date): string => {
     }
   }
   return null;
+};
+
+export const getHoroscopeForToday = (zodiacSign: string): string => {
+  const todayDate = format(new Date(), "dd-MM-yyyy");
+
+  const normalizedSign = zodiacSign.toLowerCase();
+
+  if (horoscopeData[normalizedSign]) {
+    const dailyHoroscopes = horoscopeData[normalizedSign];
+    if (dailyHoroscopes[todayDate]) {
+      return dailyHoroscopes[todayDate];
+    } else {
+      return `Horoscope for ${
+        zodiacSign.charAt(0).toUpperCase() + zodiacSign.slice(1)
+      } on ${todayDate} not found.`;
+    }
+  } else {
+    return `Zodiac sign '${zodiacSign}' not found in the horoscope data. 🤔`;
+  }
 };

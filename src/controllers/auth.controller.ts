@@ -8,6 +8,7 @@ import {
   isPasswordMatched,
 } from "@/utils";
 import { SECRET_KEY } from "@/config";
+import { JWTPayload } from "@/middlewares";
 
 export class AuthController {
   public registerUser = async (
@@ -72,8 +73,8 @@ export class AuthController {
         return next(createError(401, "incorrect email or password"));
       }
 
-      const payload = {
-        _id: existingUser._id,
+      const payload: JWTPayload = {
+        userId: existingUser._id as string,
         name: existingUser.name,
         email: existingUser.email,
       };
