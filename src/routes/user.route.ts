@@ -1,15 +1,27 @@
 import { Router } from "express";
 import { Routes } from "@/interfaces";
-import { UserController } from "@/controllers";
+import { HoroscopeController } from "@/controllers";
+import { ensureAuthenticated } from "@/middlewares";
 
-export class UserRoute implements Routes {
-  public path: string = "/user";
+export class HoroscopeRoute implements Routes {
+  public path: string = "/horoscope";
   public router: Router = Router();
-  public authController = new UserController();
+  public horoscopeController = new HoroscopeController();
 
   constructor() {
     this.initializeRoutes();
   }
 
-  private initializeRoutes() {}
+  private initializeRoutes() {
+    this.router.get(
+      `${this.path}/today`,
+      ensureAuthenticated,
+      this.horoscopeController.getTodaysHoroscope
+    );
+    this.router.get(
+      `${this.path}/history`,
+      ensureAuthenticated,
+      this.horoscopeController.getHoroscopeHistory
+    );
+  }
 }

@@ -32,3 +32,8 @@ export interface UserRegisterInput {
   password: string;
   birthDate: string;
 }
+
+export interface UserLoginInput {
+  email: string;
+  password: string;
+}

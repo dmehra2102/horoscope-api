@@ -1,6 +1,6 @@
 import App from "./app";
-import { AuthRoute, UserRoute } from "@/routes";
+import { AuthRoute, HoroscopeRoute } from "@/routes";
 
-const app = new App([new AuthRoute(), new UserRoute()]);
+const app = new App([new AuthRoute(), new HoroscopeRoute()]);
 
 app.listen();
