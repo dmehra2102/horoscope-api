@@ -4,10 +4,11 @@ import helmet from "helmet";
 import morgan from "morgan";
 import compression from "compression";
 import { Routes } from "@/interfaces";
+import { connect, set } from "mongoose";
 import { logger, stream } from "@/utils";
 import express, { Application } from "express";
+import { errorMiddleware } from "@/middlewares";
 import { PORT, NDOE_ENV, LOG_FORMAT, dbConnection } from "@/config";
-import { connect, set } from "mongoose";
 
 class App {
   env: string;
@@ -22,6 +23,7 @@ class App {
     this.connectToDatabase();
     this.initializeMiddleware();
     this.initializeRoutes(routes);
+    this.initializeErrorHandling();
   }
 
   private initializeMiddleware() {
@@ -58,6 +60,10 @@ class App {
     routes.forEach((route) => {
       this.app.use("/", route.router);
     });
+  }
+
+  private initializeErrorHandling() {
+    this.app.use(errorMiddleware);
   }
 
   public listen() {
