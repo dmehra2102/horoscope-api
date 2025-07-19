@@ -25,3 +25,10 @@ export interface UserInterface {
 
 export interface UserDocument extends Document, UserInterface {}
 export type UserModelInterface = Model<UserDocument>;
+
+export interface UserRegisterInput {
+  name: string;
+  email: string;
+  password: string;
+  birthDate: string;
+}

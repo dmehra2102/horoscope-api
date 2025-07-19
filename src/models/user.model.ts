@@ -1,3 +1,4 @@
+import bcrypt from "bcrypt";
 import { model, Schema } from "mongoose";
 import { UserDocument, UserModelInterface, ZodiacSign } from "@/interfaces";
 
@@ -20,5 +21,13 @@ const userSchema = new Schema<UserDocument, UserModelInterface>(
     timestamps: true,
   }
 );
+
+userSchema.pre("save", async function (next) {
+  if (this.password && this.isModified("password")) {
+    this.password = await bcrypt.hash(this.password, bcrypt.genSaltSync(8));
+  }
+
+  next();
+});
 
 export const UserModel = model("User", userSchema);
