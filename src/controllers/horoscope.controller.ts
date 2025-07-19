@@ -19,11 +19,11 @@ export class HoroscopeController {
         return next(createError(401, "User not found"));
       }
 
-      const horoscope_exist = await UserHoroscopeLogModel.findOne({ userId })
+      const horoscope_exists = await UserHoroscopeLogModel.findOne({ userId })
         .lean()
         .exec();
-      if (horoscope_exist) {
-        return res.status(200).json({ data: horoscope_exist });
+      if (horoscope_exists) {
+        return res.status(200).json({ data: horoscope_exists });
       }
 
       const horoscope_text = getHoroscopeForToday(userZodiacSign.zodiac_sign);
@@ -54,6 +54,13 @@ export class HoroscopeController {
     next: NextFunction
   ) => {
     try {
+      const { userId } = req.user;
+      const horoscopeData = await UserHoroscopeLogModel.find({ userId })
+        .sort({ createdAt: "asc" })
+        .limit(7)
+        .lean()
+        .exec();
+      return res.status(200).json({ data: horoscopeData });
     } catch (error) {
       return next(error);
     }
