@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "es2022",
-    "lib": ["ES2022", "ESNext.AsyncIterable"],
+    "target": "es2017",
+    "lib": ["ES2017", "ESNext.AsyncIterable"],
     "typeRoots": ["node_modules/@types"],
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
@@ -19,7 +19,16 @@
     "resolveJsonModule": true,
     "importHelpers": true,
     "baseUrl": "src",
-    "paths": {}
+    "paths": {
+      "@/*": ["*"],
+      "@config": ["config/*"],
+      "@controllers": ["controllers/*"],
+      "@middlewares": ["middlewares/*"],
+      "@models": ["models/*"],
+      "@routes": ["routes/*"],
+      "@utils": ["utils/*"],
+      "@interfaces": ["interfaces/*"]
+    }
   },
   "include": ["src/**/*.ts", "src/**/*.json", ".env"],
   "exclude": ["node_modules"]
